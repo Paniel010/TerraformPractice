@@ -1,0 +1,25 @@
+resource "null_resource" "nullResource" {
+    #Null Resource shows that its dependent on another resource
+    depends_on = [ aws_volume_attachment.ebs_attach ]
+
+    connection {
+      type = "ssh"
+      user = "ubuntu"
+      private_key = file("D:/SSD_Backup/D_Drive/VStudio/MyTerraform/Terraform_Pract/terraform_key.pem")
+      host = aws_instance.example.public_ip
+    }
+    #Ansible can be preferred for all configurations
+    provisioner "remote-exec" {
+        inline = [
+            "sudo apt install apache2 -y",
+            "sudo apt install php -y",
+            "sudo systemctl start apache2",
+            "sudo systemctl enable apache2",
+            "sudo mkfs.ext4 /dev/xvdc",
+            "sudo mount /dev/xvdc /var/www/html",
+            "sudo apt install git -y",
+            "sudo git clone https://github.com/devopskroy/apacheWebpage.git /var/www/html/web"
+            
+        ]
+    }
+}
