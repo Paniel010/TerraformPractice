@@ -1,0 +1,3 @@
+output "ServerIP" {
+    value = aws_instance.example.public_ip 
+}
