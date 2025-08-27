@@ -1,0 +1,7 @@
+resource "aws_volume_attachment" "ebs_attach" {
+  device_name = "/dev/xvdc"
+  volume_id   = aws_ebs_volume.MyEBS.id    #ID of EBS Volume to Attach
+  instance_id = aws_instance.example.id #ID of Instance to be Attached
+
+  force_detach = true  #It can easily detached at terraform Destroy
+}
